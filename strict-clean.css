@@ -1,0 +1,393 @@
+/* ============================================================
+ *  Strict Study Zone – YouTube Interface Sanitization
+ *  Hides / blurs distracting YouTube elements via CSS & JS.
+ *  Applied at document_start for earliest possible blocking.
+ * ============================================================ */
+
+/* ------------------------------------------------
+ *  1. HOMEPAGE FEED — KEPT VISIBLE!
+ *     Individual non-educational videos in the feed
+ *     are dynamically filtered (blurred or hidden)
+ *     by content.js based on study keywords.
+ * ------------------------------------------------ */
+
+/* ------------------------------------------------
+ *  2. SIDEBAR – Video recommendations panel on watch page
+ * ------------------------------------------------ */
+#secondary,
+#related,
+ytd-watch-next-secondary-results-renderer {
+  display: none !important;
+}
+
+/* Center watch page player nicely without sidebar distraction */
+ytd-watch-flexy[flexy] #primary.ytd-watch-flexy {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+}
+
+/* ------------------------------------------------
+ *  3. COMMENTS – Full comments section on watch page
+ * ------------------------------------------------ */
+ytd-comments,
+ytd-comment-thread-renderer,
+#comments {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ *  4. SHORTS – All entry points and player
+ * ------------------------------------------------ */
+
+/* Shorts navigation link in sidebar */
+a[title="Shorts"],
+ytd-guide-entry-renderer a[href="/shorts"],
+ytd-mini-guide-entry-renderer a[href="/shorts"] {
+  display: none !important;
+}
+
+/* Shorts shelf on homepage and search results */
+ytd-reel-shelf-renderer,
+ytd-rich-shelf-renderer[is-shorts],
+ytd-rich-section-renderer:has(ytd-reel-shelf-renderer) {
+  display: none !important;
+}
+
+/* Any direct link pointing to /shorts/ */
+a[href*="/shorts/"] {
+  display: none !important;
+}
+
+/* If user lands on the Shorts player page, hide it */
+ytd-shorts {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ *  5. END-SCREEN & AUTOPLAY overlays
+ * ------------------------------------------------ */
+.ytp-endscreen-content,
+.ytp-ce-element,
+.ytp-autonav-endscreen-countdown-container,
+.ytp-suggestion-set {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ *  6. TRENDING / EXPLORE page content
+ * ------------------------------------------------ */
+ytd-browse[page-subtype="trending"] #contents,
+ytd-browse[page-subtype="FEtrending"] #contents {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ *  7. NOTIFICATION BELL (reduces impulse clicks)
+ * ------------------------------------------------ */
+ytd-notification-topbar-button-renderer {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ *  8. MINI-PLAYER (prevents background distraction)
+ * ------------------------------------------------ */
+ytd-miniplayer {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ *  9. PROMOTIONAL / AD elements
+ * ------------------------------------------------ */
+ytd-promoted-sparkles-web-renderer,
+ytd-display-ad-renderer,
+ytd-ad-slot-renderer,
+ytd-in-feed-ad-layout-renderer,
+ytd-banner-promo-renderer,
+#masthead-ad,
+ytd-statement-banner-renderer,
+ytd-rich-item-renderer[is-slim-media] {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ * 10. VOICE SEARCH BUTTON (minor distraction cleanup)
+ * ------------------------------------------------ */
+#voice-search-button {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ * 11. STUDY MODE BANNER (top bar)
+ * ------------------------------------------------ */
+:root {
+  --ssz-banner-height: 36px;
+}
+
+#ssz-study-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--ssz-banner-height);
+  box-sizing: border-box;
+  z-index: 999999;
+  background: linear-gradient(135deg, #0a081d 0%, #171338 50%, #1e1548 100%);
+  color: #00d4aa;
+  text-align: center;
+  padding: 0 16px;
+  font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  border-bottom: 1.5px solid rgba(0, 212, 170, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  user-select: none;
+}
+
+#ssz-study-banner .ssz-shield {
+  font-size: 15px;
+  filter: drop-shadow(0 0 6px rgba(0, 212, 170, 0.4));
+}
+
+#ssz-study-banner .ssz-banner-title {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+#ssz-study-banner .ssz-badge-indicator {
+  background: rgba(0, 212, 170, 0.15);
+  color: #00d4aa;
+  border: 1px solid rgba(0, 212, 170, 0.4);
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#ssz-study-banner .ssz-stats {
+  color: #9d9bc9;
+  margin-left: 8px;
+  font-size: 11.5px;
+  font-weight: 400;
+}
+
+/* Push YouTube masthead, chips filter bar, and guide down synchronously with zero overlap */
+body.ssz-active {
+  --ytd-masthead-height: calc(56px + var(--ssz-banner-height)) !important;
+}
+
+body.ssz-active ytd-app #masthead-container {
+  top: var(--ssz-banner-height) !important;
+}
+
+body.ssz-active ytd-feed-filter-chip-bar-renderer {
+  top: calc(56px + var(--ssz-banner-height)) !important;
+}
+
+body.ssz-active #page-manager {
+  margin-top: calc(56px + var(--ssz-banner-height)) !important;
+}
+
+body.ssz-active tp-yt-app-drawer#guide,
+body.ssz-active #guide-wrapper,
+body.ssz-active #guide-content,
+body.ssz-active ytd-mini-guide-renderer {
+  top: calc(56px + var(--ssz-banner-height)) !important;
+}
+
+/* ------------------------------------------------
+ * 12. SHORTS PAGE REDIRECT OVERLAY
+ * ------------------------------------------------ */
+#ssz-shorts-block {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999999;
+  background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+  color: #ffffff;
+}
+
+#ssz-shorts-block h1 {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+#ssz-shorts-block h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #00d4aa;
+  margin-bottom: 12px;
+}
+
+#ssz-shorts-block p {
+  color: #8888cc;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+#ssz-shorts-block button {
+  background: linear-gradient(135deg, #00d4aa, #00b894);
+  color: #0f0c29;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#ssz-shorts-block button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 170, 0.3);
+}
+
+/* ------------------------------------------------
+ * 13. DYNAMIC FILTERING STYLES (BLUR & HIDE)
+ *     Applied to non-educational videos on homepage & search
+ * ------------------------------------------------ */
+
+.ssz-filter-container {
+  position: relative !important;
+}
+
+/* BLUR MODE: Only blurs video preview & details; does NOT blur container or badge */
+.ssz-blurred-video {
+  position: relative !important;
+}
+
+.ssz-blurred-video > ytd-rich-grid-media,
+.ssz-blurred-video > #content,
+.ssz-blurred-video > #dismissible,
+.ssz-blurred-video > .ytd-video-renderer,
+.ssz-blurred-video > .ytd-compact-video-renderer,
+.ssz-blurred-video > ytd-thumbnail,
+.ssz-blurred-video > .details {
+  filter: blur(12px) grayscale(85%) !important;
+  opacity: 0.28 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  transition: filter 0.25s ease, opacity 0.25s ease, transform 0.25s ease !important;
+  transform: scale(0.98);
+}
+
+/* Sharp, interactive unblur button that floats above blurred card */
+.ssz-blur-badge {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background: rgba(15, 12, 41, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(0, 212, 170, 0.65);
+  color: #00d4aa;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
+  pointer-events: auto !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ssz-blur-badge:hover {
+  background: #1a163e;
+  border-color: #00ffd0;
+  color: #ffffff;
+  box-shadow: 0 4px 22px rgba(0, 212, 170, 0.5);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+/* Once unblurred by user click */
+.ssz-unblurred,
+.ssz-unblurred > ytd-rich-grid-media,
+.ssz-unblurred > #content,
+.ssz-unblurred > #dismissible {
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+/* HIDE MODE: completely removes non-study items from view */
+.ssz-hidden-video {
+  display: none !important;
+}
+
+/* Prevent empty row containers from leaving giant blank gaps on YouTube */
+ytd-rich-grid-row:not(:has(ytd-rich-item-renderer:not(.ssz-hidden-video))) {
+  display: none !important;
+}
+
+/* Collapse empty shelf sections */
+ytd-rich-section-renderer:not(:has(ytd-rich-item-renderer:not(.ssz-hidden-video))):has(ytd-rich-shelf-renderer) {
+  display: none !important;
+}
+
+/* ------------------------------------------------
+ * 14. EXTENSION DISABLED STATE
+ * ------------------------------------------------ */
+body.ssz-disabled {
+  --ytd-masthead-height: 56px !important;
+}
+
+body.ssz-disabled #ssz-study-banner,
+body.ssz-disabled #ssz-shorts-block {
+  display: none !important;
+}
+
+body.ssz-disabled ytd-app #masthead-container,
+body.ssz-disabled ytd-feed-filter-chip-bar-renderer,
+body.ssz-disabled #page-manager,
+body.ssz-disabled tp-yt-app-drawer#guide,
+body.ssz-disabled #guide-wrapper,
+body.ssz-disabled #guide-content,
+body.ssz-disabled ytd-mini-guide-renderer {
+  top: revert !important;
+  margin-top: revert !important;
+}
+
+body.ssz-disabled .ssz-blurred-video > ytd-rich-grid-media,
+body.ssz-disabled .ssz-blurred-video > #content,
+body.ssz-disabled .ssz-blurred-video > #dismissible {
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+body.ssz-disabled .ssz-blur-badge {
+  display: none !important;
+}
+
+body.ssz-disabled .ssz-hidden-video {
+  display: block !important;
+}
+
+body.ssz-disabled ytd-rich-grid-row,
+body.ssz-disabled ytd-rich-section-renderer {
+  display: block !important;
+}

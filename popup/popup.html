@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=360">
+  <title>Strict Study Zone</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header -->
+  <header id="ssz-header">
+    <div class="header-content">
+      <span class="logo-icon">🛡️</span>
+      <div class="header-text">
+        <h1>Strict Study Zone</h1>
+        <p class="tagline">YouTube Content Firewall</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Toggle -->
+  <section id="ssz-toggle-section">
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <span class="toggle-label">Study Firewall</span>
+        <span id="status-text" class="status-active">Active</span>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-enabled" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Filter Mode Selector (Blur vs Hide) -->
+  <section id="ssz-filter-mode-section">
+    <div class="section-title">Non-Study Content Action</div>
+    <div class="mode-selector">
+      <label class="mode-option" id="mode-opt-blur">
+        <input type="radio" name="filterMode" value="blur" checked id="radio-blur">
+        <div class="mode-card">
+          <span class="mode-icon">🌫️</span>
+          <div class="mode-details">
+            <span class="mode-name">Blur Content</span>
+            <span class="mode-desc">Preserves feed, blurs distractions</span>
+          </div>
+        </div>
+      </label>
+      <label class="mode-option" id="mode-opt-hide">
+        <input type="radio" name="filterMode" value="hide" id="radio-hide">
+        <div class="mode-card">
+          <span class="mode-icon">🚫</span>
+          <div class="mode-details">
+            <span class="mode-name">Hide Content</span>
+            <span class="mode-desc">Completely removes from feed</span>
+          </div>
+        </div>
+      </label>
+    </div>
+  </section>
+
+  <!-- Stats Cards -->
+  <section id="ssz-stats-section">
+    <div class="stats-grid">
+      <div class="stat-card stat-blocked">
+        <span class="stat-number" id="stat-blocked">0</span>
+        <span class="stat-label">Filtered</span>
+      </div>
+      <div class="stat-card stat-allowed">
+        <span class="stat-number" id="stat-allowed">0</span>
+        <span class="stat-label">Allowed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Active Protections -->
+  <section id="ssz-features-section">
+    <h2>Active Protections</h2>
+    <ul class="feature-list">
+      <li><span class="feature-icon">✨</span> Homepage Feed: Non-Study Videos Filtered/Blurred</li>
+      <li><span class="feature-icon">🚫</span> Sidebar Recommendations Hidden</li>
+      <li><span class="feature-icon">🚫</span> Shorts Blocked &amp; Redirected</li>
+      <li><span class="feature-icon">🚫</span> Comments Hidden</li>
+      <li><span class="feature-icon">🚫</span> End-Screen Overlays Removed</li>
+      <li><span class="feature-icon">🚫</span> Notification Bell Hidden</li>
+      <li><span class="feature-icon">🔍</span> Search Results Filtered by Subject</li>
+    </ul>
+  </section>
+
+  <!-- Custom Keywords -->
+  <section id="ssz-keywords-section">
+    <h2>Custom Study Keywords</h2>
+    <p class="section-hint">Add your specific subjects/topics (one per line). These are <strong>added</strong> on top of 350+ built-in study keywords (Cybersecurity, LLMs, Claude, Coding, Cloud, Exams &amp; more).</p>
+    <textarea id="custom-keywords" placeholder="e.g.&#10;burpsuite&#10;claude sonnet&#10;network forensics&#10;discrete mathematics" rows="4"></textarea>
+    <button id="save-keywords" class="btn-primary">💾 Save Keywords</button>
+    <span id="save-feedback" class="save-feedback"></span>
+  </section>
+
+  <!-- Reset Controls -->
+  <section id="ssz-reset-section">
+    <button id="reset-stats" class="btn-secondary">📊 Reset Statistics</button>
+    <button id="reset-keywords" class="btn-secondary">🔄 Reset Keywords to Default</button>
+  </section>
+
+  <!-- Footer -->
+  <footer id="ssz-footer">
+    <p>Strict Study Zone v1.2.0 — Focus on what matters</p>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
